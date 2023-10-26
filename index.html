@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Electricity Bill Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #07999b;
+            border: 2px solid #000000;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            text-align: center;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .container h1 {
+            color: #fff;
+        }
+        
+
+        .floor {
+            margin: 20px 0;
+        }
+
+        .floor h2 {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #fff;
+            display: inline-block;
+            width: 150px; /* Fixed width for labels */
+            text-align: left;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.2s ease-in-out;
+            width: 100%;
+        }
+
+        input:focus {
+            border-color: #05080a;
+        }     
+
+        button {
+            background-color: #ff000d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #94b01a;
+        }
+
+        .bill-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #4a04a5;
+            border: 2px solid #007BFF;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+        }
+
+        .bill-section h2 {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .result {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .result-label {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        #overallBill {
+            font-size: 28px;
+            background-color: #ffe100e7;
+            color: #fff;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form>
+            <h1>Electricity Bill Calculator</h1>
+            <div class="floor">
+                <h2>Ground Floor</h2>
+                <div class="input-container">
+                    <label for="currentUnitGround">Current Unit:</label>
+                    <input type="number" id="currentUnitGround" required>
+                </div>
+                <div class="input-container">
+                    <label for="previousUnitGround">Previous Unit:</label>
+                    <input type="number" id="previousUnitGround" required>
+                </div>
+            </div>
+            <div class="floor">
+                <h2>First Floor</h2>
+                <div class="input-container">
+                    <label for="currentUnitFirst">Current Unit:</label>
+                    <input type="number" id="currentUnitFirst" required>
+                </div>
+                <div class="input-container">
+                    <label for="previousUnitFirst">Previous Unit:</label>
+                    <input type="number" id="previousUnitFirst" required>
+                </div>
+            </div>
+            <div class="floor">
+                <h2>Second Floor</h2>
+                <div class="input-container">
+                    <label for="currentUnitSecond">Current Unit:</label>
+                    <input type="number" id="currentUnitSecond" required>
+                </div>
+                <div class="input-container">
+                    <label for="previousUnitSecond">Previous Unit:</label>
+                    <input type="number" id="previousUnitSecond" required>
+                </div>
+            </div>
+            <div class="floor">
+                <h2>Motor Units</h2>
+                <div class="input-container">
+                    <label for="motorUnits">Motor Units:</label>
+                    <input type="number" id="motorUnits" required>
+                </div>
+            </div>
+            <div class="input-container">
+                <label for="unitPrice">Unit Price:</label>
+                <input type="number" id="unitPrice" required>
+            </div>
+            <div class="input-container">
+                <label for="tax">Tax:</label>
+                <input type="number" id="tax" required>
+            </div>
+            <button type="button" onclick="calculateBill()">Calculate Bill</button>
+
+            <div class="bill-section">
+                <h2>Bill Details</h2>
+                <div id="groundFloorBill" class="result">Ground Floor Bill: Rs.0</div>
+                <div id="firstFloorBill" class="result">First Floor Bill: Rs.0</div>
+                <div id="secondFloorBill" class="result">Second Floor Bill: Rs.0</div>
+                <div id="overallBill" class="result">Overall Bill: Rs.0</div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function calculateBill() {
+            const currentUnitGround = parseFloat(document.getElementById("currentUnitGround").value);
+            const previousUnitGround = parseFloat(document.getElementById("previousUnitGround").value);
+            const currentUnitFirst = parseFloat(document.getElementById("currentUnitFirst").value);
+            const previousUnitFirst = parseFloat(document.getElementById("previousUnitFirst").value);
+            const currentUnitSecond = parseFloat(document.getElementById("currentUnitSecond").value);
+            const previousUnitSecond = parseFloat(document.getElementById("previousUnitSecond").value);
+            const motorUnits = parseFloat(document.getElementById("motorUnits").value);
+            const unitPrice = parseFloat(document.getElementById("unitPrice").value);
+            const tax = parseFloat(document.getElementById("tax").value);
+
+            const groundFloorConsumption = currentUnitGround - previousUnitGround - motorUnits;
+            const firstFloorConsumption = currentUnitFirst - previousUnitFirst;
+            const secondFloorConsumption = currentUnitSecond - previousUnitSecond;
+
+            const motorUnitConsumption = (motorUnits * 2 * unitPrice) / 3;
+
+            const groundFloorBill = (groundFloorConsumption * unitPrice + motorUnitConsumption) + (tax / 3);
+            const firstFloorBill = (firstFloorConsumption * unitPrice + motorUnitConsumption) + (tax / 3);
+            const secondFloorBill = (secondFloorConsumption * unitPrice + motorUnitConsumption) + (tax / 3);
+
+            document.getElementById("groundFloorBill").textContent = `Ground Floor Bill: Rs.${groundFloorBill.toFixed(2)}`;
+            document.getElementById("firstFloorBill").textContent = `First Floor Bill: Rs.${firstFloorBill.toFixed(2)}`;
+            document.getElementById("secondFloorBill").textContent = `Second Floor Bill: Rs.${secondFloorBill.toFixed(2)}`;
+
+            const overallBill = groundFloorBill + firstFloorBill + secondFloorBill;
+            document.getElementById("overallBill").textContent = `Overall Bill: Rs.${overallBill.toFixed(2)}`;
+        }
+    </script>
+</body>
+
+</html>
